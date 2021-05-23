@@ -1,9 +1,11 @@
 package com.deis.flightbase.controller;
 
+import com.deis.flightbase.config.Views;
 import com.deis.flightbase.model.AirCompany;
 import com.deis.flightbase.model.FlightStatus;
 import com.deis.flightbase.service.AirCompanyService;
 import com.deis.flightbase.util.CustomErrorType;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,6 +32,7 @@ public class AirCompanyController {
         this.airCompanyService = airCompanyService;
     }
 
+    @JsonView(Views.Internal.class)
     @Operation(
             summary = "get list of air Company",
             description = "1) Simple CRUD operations for Air company entity"
@@ -40,6 +43,7 @@ public class AirCompanyController {
         return new ResponseEntity<>(airCompanyList, HttpStatus.OK);
     }
 
+    @JsonView(Views.Internal.class)
     @Operation(
             summary = "get air company by name",
             description = "1) Simple CRUD operations for Air company entity"

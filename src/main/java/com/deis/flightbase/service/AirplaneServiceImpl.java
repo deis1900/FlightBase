@@ -1,8 +1,6 @@
 package com.deis.flightbase.service;
 
-import com.deis.flightbase.model.AirCompany;
 import com.deis.flightbase.model.Airplane;
-import com.deis.flightbase.repository.AirCompanyRepository;
 import com.deis.flightbase.repository.AirplaneRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +10,11 @@ import java.util.Optional;
 public class AirplaneServiceImpl implements AirplaneService{
 
     private final AirplaneRepository airplaneRepository;
-    private final AirCompanyRepository airCompanyRepository;
+    private final AirCompanyService airCompanyService;
 
-    public AirplaneServiceImpl(AirplaneRepository airplaneRepository, AirCompanyRepository airCompanyRepository) {
+    public AirplaneServiceImpl(AirplaneRepository airplaneRepository, AirCompanyService airCompanyService) {
         this.airplaneRepository = airplaneRepository;
-        this.airCompanyRepository = airCompanyRepository;
+        this.airCompanyService = airCompanyService;
     }
 
     @Override
@@ -33,8 +31,7 @@ public class AirplaneServiceImpl implements AirplaneService{
 
     @Override
     public void update(Airplane airplane, Long id) {
-        AirCompany airCompany = airCompanyRepository.getOne(id);
-        airplane.setAirCompany(airCompany);
+        airplane.setAirCompany(airCompanyService.getById(id));
         airplaneRepository.saveAndFlush(airplane);
     }
 }

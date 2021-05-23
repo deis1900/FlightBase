@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface AirCompanyRepository extends JpaRepository<AirCompany, Long> {
 
     Optional<AirCompany> findByName(String name);
+    boolean existsAirCompanyByName(String name);
 }

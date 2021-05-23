@@ -4,6 +4,7 @@ import com.deis.flightbase.model.Flight;
 import com.deis.flightbase.model.FlightStatus;
 import com.deis.flightbase.repository.FlightRepository;
 import com.deis.flightbase.service.flight_state.*;
+import com.deis.flightbase.util.exception_handler.EntityDataException;
 import com.deis.flightbase.util.exception_handler.IllegalFlightStatusException;
 import com.deis.flightbase.util.exception_handler.NoSuchElementFoundException;
 import org.slf4j.Logger;
@@ -63,6 +64,13 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     public Flight create(Flight flight, FlightStatus pending) {
         updateFlightStatus(flight, pending);
+        if(flight.getDelayStartedDate() != null){
+            throw new EntityDataException(" Delay start date is incorrect. Delay start should be null", new Throwable());
+        }
+        if(flight.getEndedDate() != null){
+            throw new EntityDataException(" Ended date is incorrect. Ended date should be null", new Throwable());
+        }
+        flight.setCreatedDate(LocalDateTime.now());
         LOGGER.info("Save flight " + flight.toString());
         return repository.save(flight);
     }

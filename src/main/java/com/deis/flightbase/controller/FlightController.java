@@ -37,17 +37,18 @@ public class FlightController {
     @GetMapping(value = "/more24", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getProblemFlights(){
         List<Flight> flightList = flightService.getProblemFlightList(FlightStatus.ACTIVE);
-        return new ResponseEntity<>(flightList, HttpStatus.CREATED);
+        return new ResponseEntity<>(flightList, HttpStatus.OK);
     }
 
     @Operation(
-            summary = "Endpoint to find all Flights in COMPLETED status and difference between\n" +
+            summary = "8)",
+            description = "Endpoint to find all Flights in COMPLETED status and difference between " +
                     "started and ended time is bigger than estimated flight time."
     )
     @GetMapping(value = "/late", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findLateFlights(){
         List<Flight> flightList = flightService.findLateFlights(FlightStatus.COMPLETED);
-        return new ResponseEntity<>(flightList, HttpStatus.CREATED);
+        return new ResponseEntity<>(flightList, HttpStatus.OK);
     }
 
     @Operation(

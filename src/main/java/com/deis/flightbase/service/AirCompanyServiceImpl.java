@@ -6,6 +6,7 @@ import com.deis.flightbase.model.FlightStatus;
 import com.deis.flightbase.repository.AirCompanyRepository;
 import com.deis.flightbase.util.exception_handler.NoSuchElementFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,6 +24,7 @@ public class AirCompanyServiceImpl implements AirCompanyService {
     }
 
     @Override
+    @Transactional
     public Long save(AirCompany airCompany) {
         airCompany.setFoundedDate(LocalDate.now());
         AirCompany savedAirCompany = repository.save(airCompany);
@@ -30,13 +32,14 @@ public class AirCompanyServiceImpl implements AirCompanyService {
     }
 
     @Override
+    @Transactional
     public void update(AirCompany airCompany) {
         repository.saveAndFlush(airCompany);
     }
 
     @Override
     public boolean isExists(AirCompany airCompany) {
-        return repository.existsById(airCompany.getId());
+        return repository.existsAirCompanyByName(airCompany.getName());
     }
 
     @Override
@@ -57,6 +60,7 @@ public class AirCompanyServiceImpl implements AirCompanyService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         repository.deleteById(id);
     }

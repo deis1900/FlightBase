@@ -35,11 +35,11 @@ CREATE TABLE flight
 (
     id                    BIGINT   not null AUTO_INCREMENT,
     created_at            TIMESTAMP,
-    delay_started_at      TIMESTAMP DEFAULT current_timestamp,
+    delay_started_at      TIMESTAMP NULL DEFAULT NULL,
     departure_country     varchar(255) not null,
     destination_country   varchar(255) not null,
     distance              integer      not null,
-    ended_at              TIMESTAMP DEFAULT current_timestamp,
+    ended_at              TIMESTAMP Null DEFAULT NULL,
     estimated_flight_time TIME         not null,
     flight_status         varchar(255) not null,
     air_company_id        bigint,

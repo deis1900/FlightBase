@@ -59,15 +59,15 @@ public class Flight implements Serializable {
     private LocalTime estimatedFlightTime;
 
     @JsonView(Views.Public.class)
-    @Column(name = "ended_at", columnDefinition = "TIMESTAMP")
+    @Column(name = "ended_at", columnDefinition = "TIMESTAMP NULL DEFAULT NULL")
     private LocalDateTime endedDate;
 
     @JsonView(Views.Public.class)
-    @Column(name = "delay_started_at", columnDefinition = "TIMESTAMP")
+    @Column(name = "delay_started_at", columnDefinition = "TIMESTAMP NULL DEFAULT NULL")
     private LocalDateTime delayStartedDate;
 
     @JsonView(Views.Public.class)
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP")
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT NOT NULL")
     private LocalDateTime createdDate;
 
     @Override

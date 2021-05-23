@@ -60,7 +60,7 @@ public class AirplaneController {
             }
             return new ResponseEntity<>(new CustomErrorType("Have no change"), HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(new CustomErrorType("Airplane with id " + airplane.getId()
-                + "isn't exist."), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new CustomErrorType("Airplane with factory serial number "
+                + airplane.getFactorySN() + " isn't exist."), HttpStatus.NOT_FOUND);
     }
 }
