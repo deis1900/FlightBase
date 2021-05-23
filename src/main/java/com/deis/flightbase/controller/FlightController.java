@@ -1,8 +1,11 @@
 package com.deis.flightbase.controller;
 
+import com.deis.flightbase.config.Views;
 import com.deis.flightbase.model.Flight;
 import com.deis.flightbase.model.FlightStatus;
 import com.deis.flightbase.service.FlightService;
+import com.deis.flightbase.util.CustomErrorType;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,13 +32,12 @@ public class FlightController {
         this.flightService = flightService;
     }
 
-
-
     @Operation(
             summary = "4) Endpoint to find all Flights in ACTIVE status and started more than 24 hours ago."
     )
+    @JsonView(Views.Public.class)
     @GetMapping(value = "/more24", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getProblemFlights(){
+    public ResponseEntity<?> getProblemFlights() {
         List<Flight> flightList = flightService.getProblemFlightList(FlightStatus.ACTIVE);
         return new ResponseEntity<>(flightList, HttpStatus.OK);
     }
@@ -45,8 +47,11 @@ public class FlightController {
             description = "Endpoint to find all Flights in COMPLETED status and difference between " +
                     "started and ended time is bigger than estimated flight time."
     )
+    @JsonView(Views.Public.class)
     @GetMapping(value = "/late", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findLateFlights(){
+    public ResponseEntity<?> findLateFlights() {
+        LOGGER.info("Find all Flights in COMPLETED status and difference between \" +\n" +
+                "                    \"started and ended time is bigger than estimated flight time");
         List<Flight> flightList = flightService.findLateFlights(FlightStatus.COMPLETED);
         return new ResponseEntity<>(flightList, HttpStatus.OK);
     }
@@ -57,7 +62,7 @@ public class FlightController {
     )
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createFlight(@Valid @RequestBody
-                                                  @Parameter(description = "Generated flight") Flight flight){
+                                          @Parameter(description = "Generated flight") Flight flight) {
         Flight flt = flightService.create(flight, FlightStatus.PENDING);
         LOGGER.info("Save new flight" + flt.toString());
         return new ResponseEntity<>(flt.getId(), HttpStatus.CREATED);
@@ -70,12 +75,20 @@ public class FlightController {
                     "if status to change is ACTIVE – set started at " +
                     "if status to change is COMPLETED set ended at "
     )
-    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> changeFlightStatus(@PathVariable("id") Long id, @RequestBody
-            @Parameter(description = "update status for flight") FlightStatus flightStatus){
-        Flight flight = flightService.findFlightById(id);
-        flightService.update(flight, flightStatus);
-        LOGGER.info("Flight late. Starting the delayed flight date.");
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @PutMapping(value = "/{id}/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> changeFlightStatus(@PathVariable("id") Long id,
+                                                @PathVariable("status")
+                                                @Parameter(description = "update status for flight")
+                                                        String status) {
+        FlightStatus flightStatus = null;
+        try {
+            flightStatus = FlightStatus.valueOf(status);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new CustomErrorType("Check Status!"), HttpStatus.BAD_REQUEST);
+        }
+            Flight flight = flightService.findFlightById(id);
+            flightService.update(flight, flightStatus);
+            LOGGER.info("Flight late. Starting the delayed flight date.");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

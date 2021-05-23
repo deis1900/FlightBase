@@ -14,6 +14,4 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 
     List<Flight> findAllByFlightStatus(FlightStatus flightStatus);
 
-
-
 }

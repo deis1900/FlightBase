@@ -32,23 +32,24 @@ public class AirCompanyController {
         this.airCompanyService = airCompanyService;
     }
 
-    @JsonView(Views.Internal.class)
+
     @Operation(
             summary = "get list of air Company",
             description = "1) Simple CRUD operations for Air company entity"
     )
+    @JsonView(Views.Internal.class)
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AirCompany>> getAllAirCompany() {
         List<AirCompany> airCompanyList = airCompanyService.findAll();
         return new ResponseEntity<>(airCompanyList, HttpStatus.OK);
     }
 
-    @JsonView(Views.Internal.class)
     @Operation(
             summary = "get air company by name",
             description = "1) Simple CRUD operations for Air company entity"
     )
-    @GetMapping(value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @JsonView(Views.Internal.class)
+    @GetMapping(value = "/with/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AirCompany> getAirCompanyByName(@PathVariable("name") String name) {
         LOGGER.info("Fetching air company with name " + name);
         return new ResponseEntity<>(airCompanyService.getAirCompanyByName(name), HttpStatus.OK);
@@ -75,7 +76,7 @@ public class AirCompanyController {
     }
 
     @Operation(
-            summary = "update film",
+            summary = "update air company",
             description = "1) Simple CRUD operations for Air company entity. Save and flush film to db."
     )
     @PutMapping(value = "/{id}")
@@ -89,13 +90,13 @@ public class AirCompanyController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         if (airCompany.equals(airCompanyDB)) {
-            String message = "no changes have been made in the company with name " + airCompany.getName() + ".";
+            String message = "No changes have been made in the company with name " + airCompany.getName() + ".";
             LOGGER.error(message);
             return new ResponseEntity<>( new CustomErrorType(message),
                     HttpStatus.CONFLICT);
         }
         if (!airCompany.getFoundedDate().equals(airCompanyDB.getFoundedDate())) {
-            String message = "It is inadmissible to change the date of foundation of the company.";
+            String message = "It is impossible to change the date of foundation of the company.";
             LOGGER.error(message);
             return new ResponseEntity<>( new CustomErrorType(message),
                     HttpStatus.CONFLICT);
@@ -125,8 +126,10 @@ public class AirCompanyController {
             summary = "3) Endpoint to find all Air Company Flights by status (use company name for identification " +
                     "of Air Company)"
     )
-    @GetMapping(value = "/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<AirCompany>> getAirCompanyByStatus(@PathVariable("status")FlightStatus status){
+    @JsonView(Views.Internal.class)
+    @GetMapping(value = "/flight/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<AirCompany>> getAirCompanyByStatus(@PathVariable("status") FlightStatus status){
+        LOGGER.info("Get air company with flight is " + status);
         List<AirCompany> flightList = airCompanyService.getListAirCompany(status);
         return new ResponseEntity<>(flightList, HttpStatus.OK);
     }

@@ -10,11 +10,11 @@ VALUES (100, 'Boing 737MAX', 'BBJ MAX 9', 2, '232FR', 9820, 11200, 'Internationa
 
 INSERT IGNORE INTO flight(id, flight_status, Air_company_id, airplane_id, departure_country, destination_country,
                           distance, estimated_flight_time, ended_at, delay_started_at, created_at)
-VALUES (1, 0, 1, 2, 'Ukraine', 'Great Britain', 2133, '03:20', '2021-05-02 00:00:00', '2021-05-01 15:55:00', '2021-05-01 00:40:00'),
-       (2, 0, 2, 1, 'Ukraine', 'Great Britain', 2133, '05:20', null, '2021-05-01 15:55:00', null),
-       (3, 1, 1, 3, 'Ukraine', 'Great Britain', 2133, '03:50', null, '2017-05-01 15:55:00', null),
-       (4, 3, 1, 2, 'Ukraine', 'Great Britain', 2133, '05:20', null, '2020-05-01 15:55:00', null),
-       (5, 0, 2, 1, 'Ukraine', 'Great Britain', 2133, '09:45', null, '2017-05-01 15:55:00', null),
-       (6, 0, 2, 1, 'Ukraine', 'Great Britain', 2133, '03:55', null, '2017-05-01 15:55:00', null);
+VALUES (1, 'PENDING', 1, 101, 'Ukraine', 'Great Britain', 2133, '03:20', '2021-05-02 00:00:00', '2021-05-01 15:55:00', '2021-05-01 00:40:00'),
+        (2, 'ACTIVE', 2, 100, 'Great Britain', 'Ukraine', 2133, '05:20', null, '2021-05-23 02:00:00', '2021-05-23 05:00:00'),
+       (3, 'ACTIVE', 1, 103, 'Ukraine', 'Great Britain', 2133, '03:50', '2021-05-03 20:50:00', '2021-05-03 15:55:00', '2021-05-03 16:00:00'),
+       (4, 'COMPLETED', 1, 101, 'Ukraine', 'Great Britain', 2133, '05:20', '2021-05-24 22:10:00', '2021-05-24 16:55:00', '2021-05-24 17:00:00'),
+       (5, 'COMPLETED', 2, 100, 'Ukraine', 'Great Britain', 2133, '09:45', '2021-05-12 12:00:00', '2021-05-12 11:00:00', '2021-05-11 12:00:00'),
+       (6, 'DELAYED', 2, 100, 'Ukraine', 'Great Britain', 2133, '03:55', null, '2021-05-23 15:55:00', null);
 
 

@@ -26,7 +26,6 @@ CREATE TABLE airplane
     air_company_id        bigint DEFAULT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY `UK_lb8i0o8ixn350ngcee1tmcnjp` (factory_serial_number),
-    UNIQUE KEY `UK_2exqqyjvwths8i6hcsgub8b0l` (name),
     UNIQUE KEY `UK_mttpjklvtuecfynvjhavfenc9` (number_of_flights)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -34,12 +33,12 @@ CREATE TABLE airplane
 CREATE TABLE flight
 (
     id                    BIGINT   not null AUTO_INCREMENT,
-    created_at            TIMESTAMP,
-    delay_started_at      TIMESTAMP NULL DEFAULT NULL,
+    created_at            DATETIME,
+    delay_started_at      DATETIME,
     departure_country     varchar(255) not null,
     destination_country   varchar(255) not null,
     distance              integer      not null,
-    ended_at              TIMESTAMP Null DEFAULT NULL,
+    ended_at              DATETIME,
     estimated_flight_time TIME         not null,
     flight_status         varchar(255) not null,
     air_company_id        bigint,

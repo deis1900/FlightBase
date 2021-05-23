@@ -1,6 +1,7 @@
 package com.deis.flightbase.model;
 
 import com.deis.flightbase.config.Views;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -54,20 +55,24 @@ public class Flight implements Serializable {
     @Column(name = "distance", nullable = false)
     private Integer distance;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     @JsonView(Views.Public.class)
     @Column(name = "estimated_flight_time", columnDefinition = "TIME", nullable = false)
     private LocalTime estimatedFlightTime;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss")
     @JsonView(Views.Public.class)
-    @Column(name = "ended_at", columnDefinition = "TIMESTAMP NULL DEFAULT NULL")
+    @Column(name = "ended_at", columnDefinition = "DATETIME")
     private LocalDateTime endedDate;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss")
     @JsonView(Views.Public.class)
-    @Column(name = "delay_started_at", columnDefinition = "TIMESTAMP NULL DEFAULT NULL")
+    @Column(name = "delay_started_at", columnDefinition = "DATETIME")
     private LocalDateTime delayStartedDate;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss")
     @JsonView(Views.Public.class)
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT NOT NULL")
+    @Column(name = "created_at", columnDefinition = "DATETIME")
     private LocalDateTime createdDate;
 
     @Override

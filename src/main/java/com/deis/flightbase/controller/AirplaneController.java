@@ -48,17 +48,14 @@ public class AirplaneController {
 
     @Operation(summary = "2) Endpoint to move airplanes between companies (simple endpoint to reassign airplane to " +
             "another company).")
-    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/company/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> changeAirCompany(@PathVariable("id") Long id, @Valid @RequestBody
     @Parameter(description = "entity for update") Airplane airplane) {
 
         Optional<Airplane> data = airplaneService.findBySerialNumber(airplane.getFactorySN());
         if (data.isPresent()) {
-            if (!data.get().getAirCompany().getName().equals(airplane.getAirCompany().getName())) {
                 airplaneService.update(airplane, id);
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(new CustomErrorType("Have no change"), HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(new CustomErrorType("Airplane with factory serial number "
                 + airplane.getFactorySN() + " isn't exist."), HttpStatus.NOT_FOUND);

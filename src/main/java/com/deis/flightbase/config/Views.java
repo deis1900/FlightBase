@@ -6,5 +6,9 @@ public class Views {
 
     public static class Internal extends Public {
     }
+
+    public static class Custom extends Public{
+
+    }
 }
 

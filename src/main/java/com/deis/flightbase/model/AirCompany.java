@@ -1,6 +1,7 @@
 package com.deis.flightbase.model;
 
 import com.deis.flightbase.config.Views;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +31,8 @@ public class AirCompany implements Serializable {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "airCompany", cascade = CascadeType.ALL)
+    @JsonView(Views.Internal.class)
+    @OneToMany(mappedBy = "airCompany", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Airplane> airplanes;
 
     @JsonView(Views.Public.class)
@@ -38,6 +40,7 @@ public class AirCompany implements Serializable {
     private String companyType;
 
     @JsonView(Views.Public.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "founded_at", columnDefinition = "DATE", nullable = false)
     private LocalDate foundedDate;
 
@@ -59,6 +62,7 @@ public class AirCompany implements Serializable {
         return "AirCompany{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", airplanes=" + airplanes +
                 ", companyType='" + companyType + '\'' +
                 ", foundedDate=" + foundedDate +
                 '}';

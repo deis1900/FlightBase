@@ -39,7 +39,7 @@ public class FlightServiceImpl implements FlightService {
         List<Flight> flightList = repository.findAllByFlightStatus(active);
 
         return flightList.stream()
-                .filter(flight -> flight.getCreatedDate().isAfter(LocalDateTime.now()))
+                .filter(flight -> (flight.getCreatedDate().plusHours(24L)).isAfter(LocalDateTime.now()))
                 .collect(Collectors.toList());
     }
 
@@ -64,13 +64,6 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     public Flight create(Flight flight, FlightStatus pending) {
         updateFlightStatus(flight, pending);
-        if(flight.getDelayStartedDate() != null){
-            throw new EntityDataException(" Delay start date is incorrect. Delay start should be null", new Throwable());
-        }
-        if(flight.getEndedDate() != null){
-            throw new EntityDataException(" Ended date is incorrect. Ended date should be null", new Throwable());
-        }
-        flight.setCreatedDate(LocalDateTime.now());
         LOGGER.info("Save flight " + flight.toString());
         return repository.save(flight);
     }
@@ -92,25 +85,25 @@ public class FlightServiceImpl implements FlightService {
                 break;
 
             case ACTIVE:
-                if (flight.getFlightStatus() == FlightStatus.PENDING) {
+                if (flight.getFlightStatus() == FlightStatus.PENDING ||
+                flight.getFlightStatus() == FlightStatus.DELAYED) {
                     strategy = new ActiveStrategy();
                 } else throw new IllegalFlightStatusException("Cannot change the status " + flight.getFlightStatus() +
                         " to status ACTIVE.", new Throwable());
                 break;
 
             case DELAYED:
-                if (flight.getFlightStatus() == FlightStatus.ACTIVE) {
+                if (flight.getFlightStatus() == FlightStatus.PENDING) {
                     strategy = new DelayedStrategy();
                 } else throw new IllegalFlightStatusException("Cannot change the status " + flight.getFlightStatus() +
                         " to status DELAYED.", new Throwable());
                 break;
 
             case COMPLETED:
-                if (flight.getFlightStatus() == FlightStatus.ACTIVE ||
-                        flight.getFlightStatus() == FlightStatus.DELAYED) {
+                if (flight.getFlightStatus() == FlightStatus.ACTIVE) {
                     strategy = new CompletedStrategy();
                 } else throw new IllegalFlightStatusException("Cannot change the status " + flight.getFlightStatus() +
-                        " to status COMPLETED.", new Throwable());
+                        " to status COMPLETED.", new NullPointerException());
                 break;
         }
         if (strategy != null) {
@@ -118,8 +111,16 @@ public class FlightServiceImpl implements FlightService {
         } else throw new IllegalFlightStatusException("Flight not have status", new Throwable());
     }
 
-//    TODO make
     boolean countTime(LocalDateTime start, LocalDateTime end, LocalTime estimatedFlightTime){
-        return true;
+        if(start == null || end == null || estimatedFlightTime == null){
+            throw new EntityDataException("Database has problem with dates and times in flight entity.", new NullPointerException());
+        }
+        var durationH = estimatedFlightTime.getHour();
+        var durationM = estimatedFlightTime.getMinute();
+
+        var arrivalTimeH = start.plusHours(durationH);
+        var scheduledArrivalTime = arrivalTimeH.plusMinutes(durationM);
+
+        return scheduledArrivalTime.isAfter(end);
     }
 }
