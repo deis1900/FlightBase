@@ -75,20 +75,21 @@ public class FlightController {
                     "if status to change is ACTIVE – set started at " +
                     "if status to change is COMPLETED set ended at "
     )
-    @PutMapping(value = "/{id}/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> changeFlightStatus(@PathVariable("id") Long id,
-                                                @PathVariable("status")
+                                                @RequestBody
                                                 @Parameter(description = "update status for flight")
                                                         String status) {
-        FlightStatus flightStatus = null;
+        FlightStatus flightStatus;
         try {
             flightStatus = FlightStatus.valueOf(status);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(new CustomErrorType("Check Status!"), HttpStatus.BAD_REQUEST);
         }
-            Flight flight = flightService.findFlightById(id);
-            flightService.update(flight, flightStatus);
-            LOGGER.info("Flight late. Starting the delayed flight date.");
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        Flight flight = flightService.findFlightById(id);
+        flightService.update(flight, flightStatus);
+        LOGGER.info("Flight late. Starting the delayed flight date.");
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

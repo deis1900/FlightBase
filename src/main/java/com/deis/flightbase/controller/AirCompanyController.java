@@ -127,10 +127,16 @@ public class AirCompanyController {
                     "of Air Company)"
     )
     @JsonView(Views.Internal.class)
-    @GetMapping(value = "/flight/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<AirCompany>> getAirCompanyByStatus(@PathVariable("status") FlightStatus status){
+    @GetMapping(value = "/flight/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAirCompanyByStatus(@RequestParam("status") String status){
+        FlightStatus flightStatus;
+        try {
+            flightStatus = FlightStatus.valueOf(status);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new CustomErrorType("Check Status!"), HttpStatus.BAD_REQUEST);
+        }
         LOGGER.info("Get air company with flight is " + status);
-        List<AirCompany> flightList = airCompanyService.getListAirCompany(status);
+        List<AirCompany> flightList = airCompanyService.getListAirCompany(flightStatus);
         return new ResponseEntity<>(flightList, HttpStatus.OK);
     }
 }
