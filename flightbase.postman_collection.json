@@ -1,0 +1,357 @@
+{
+	"info": {
+		"_postman_id": "462bef8c-5819-4965-bc58-444175bf4933",
+		"name": "flightbase",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "flight",
+			"item": [
+				{
+					"name": "4) Endpoint /more24",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/flight/more24",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"flight",
+								"more24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8) Endpoint /late",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/flight/late",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"flight",
+								"late"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6) Endpoint save Flight",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"flightStatus\": \"PENDING\",\n    \"airCompany\": {\n        \"id\": 2\n    },\n    \"airplane\": {\n        \"id\": 100\n    },\n    \"departureCountry\": \"Great Britain\",\n    \"destinationCountry\": \"Ukraine\",\n    \"distance\": 2133,\n    \"estimatedFlightTime\": \"05:20:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8082/flight/",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"flight",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7) Endpoint DELAYED.status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/flight/1?status=DELAYED",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"flight",
+								"1"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "DELAYED"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7) Endpoint ACTIVE.status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/flight/1?status=ACTIVE",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"flight",
+								"1"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "ACTIVE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7) Endpoint COMPLETED.status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/flight/1?status=COMPLETED",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"flight",
+								"1"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "COMPLETED"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Company",
+			"item": [
+				{
+					"name": "1) save air company",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"UkrFLy\",\n    \"companyType\": \"International\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8082/air_company/",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"air_company",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5) save airplane",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Boing777\",\n    \"factorySN\": \"777-3080\",\n    \"numberOfFlight\": \"12\",\n    \"flightDistance\": 10190,\n    \"fuelCapacity\": 180280,\n    \"type\": \"International\",\n    \"createdDate\": \"2015-12-12\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8082/airplane/",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"airplane",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1) get list  air company",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/air_company/",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"air_company",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2) Endpoint update airplane company",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 101,\n    \"name\": \"BAirbus A330-900neo\",\n    \"factorySN\": \"A330-900neo\",\n    \"numberOfFlight\": \"909PL\",\n    \"flightDistance\": 13209,\n    \"fuelCapacity\": 9800,\n    \"type\": \"Country\",\n    \"createdDate\": \"2016-09-12\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8082/airplane/company/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"airplane",
+								"company",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1) update air company",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"May\",\n    \"companyType\": \"International\",\n    \"foundedDate\": \"2015-09-29\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8082/air_company/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"air_company",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1) get air company by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/air_company/with/ChinaAir",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"air_company",
+								"with",
+								"ChinaAir"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1) delete air company",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/air_company/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"air_company",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3) Endpoint aircompany by flight Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/air_company/flight/?status=COMPLETED",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"air_company",
+								"flight",
+								""
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "COMPLETED"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

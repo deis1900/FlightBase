@@ -77,9 +77,8 @@ public class FlightController {
     )
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> changeFlightStatus(@PathVariable("id") Long id,
-                                                @RequestBody
                                                 @Parameter(description = "update status for flight")
-                                                        String status) {
+                                                @RequestParam("status") String status) {
         FlightStatus flightStatus;
         try {
             flightStatus = FlightStatus.valueOf(status);
