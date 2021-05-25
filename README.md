@@ -27,16 +27,19 @@ java -jar -flightbase-0.0.1-SNAPSHOT.war
 
 ##open file in Postman
 flightbase.postman_collection.json
-
-
-
+# 
+#
+#
+#
+#
+#
 
 #####Not ready
 ###### create docker image (with flightbase application) where name is deis/flight
-docker build -t deis/flight .
+####docker build -t deis/flight .
 
 ###### Run image with application(name is flight/App)
-docker run --name flightApp -p 8082:8082 deis/flight --link air:flightbase
+####docker run --name flightApp -p 8082:8082 deis/flight --link air:flightbase
 
 
 
